@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update a Task</title>
+</head>
+<body>
+<h1>Update task #{{ task.id }}</h1>
+
+{% if errors is defined and errors|length > 0 %}
+    <ul>
+        {% for error in errors %}
+            <li>{{ error.message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST" action="{{ path('tasks_update', {'id': task.id}) }}">
+    <label for="title">Title:</label>
+    <input type="text" id="title" value="{{ task.title }}" name="title" required>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description">{{ task.description }}</textarea>
+
+    <button type="submit">Update Task</button>
+</form>
+<form method="POST" action="{{ path('tasks_delete', {'id': task.id}) }}">
+    <button type="submit">Delete Task</button>
+</form>
+<a href="{{ path('tasks_index') }}">Back to Task List</a>
+</body>
+</html>

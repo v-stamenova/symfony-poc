@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <title>Task List</title>
+</head>
+<body>
+<h1>Task List</h1>
+
+<a href="{{ path('tasks_create') }}">Add New Task</a>
+
+<ul>
+    {% for task in tasks %}
+        <li>
+            <a href="{{ path('tasks_edit', {'id': task.id }) }}">
+                {{ task.title }} - {{ task.description }}
+            </a>
+        </li>
+    {% else %}
+        <p>No tasks available.</p>
+    {% endfor %}
+</ul>
+</body>
+</html>
