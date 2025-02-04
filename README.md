@@ -25,3 +25,5 @@ CREATE TABLE tasks (
     description TEXT)
 ```
 8. You should be able to see the Symfony main page and able to go to `/tasks`
+
+Once again - just a PoC (Proof of Concept). Set-up is at best ugly; code is even uglier.
