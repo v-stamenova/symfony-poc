@@ -6,7 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Task
 {
     public ?int $id;
+  
     public string $title;
+
     public ?string $description;
 
     public function __construct(?int $id, string $title, ?string $description)
