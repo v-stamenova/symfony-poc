@@ -2,7 +2,7 @@
 
 namespace App\Repository\Interfaces;
 
-use App\Model\Task;
+use App\Entity\Task;
 
 interface TaskRepositoryInterface
 {

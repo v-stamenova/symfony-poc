@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Model\Task;
+use App\Entity\Task;
 use App\Repository\Interfaces\TaskRepositoryInterface;
 use PDO;
 
