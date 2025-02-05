@@ -16,6 +16,9 @@ class TaskRepository implements TaskRepositoryInterface
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+    /**
+     * @return Task[]
+     */
     public function findAll(): array
     {
         $stmt = $this->pdo->query("SELECT * FROM tasks ORDER BY id DESC");
