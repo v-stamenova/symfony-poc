@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\Task;
+use App\Entity\Task;
 use App\Repository\Interfaces\TaskRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
