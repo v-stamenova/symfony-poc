@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Task
