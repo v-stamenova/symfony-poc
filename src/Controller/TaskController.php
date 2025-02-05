@@ -32,14 +32,12 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'tasks_store', methods: ['POST'])]
-    public function store(Request $request, ValidatorInterface $validator): Response
+    public function store(Request $request): Response
     {
         $title = $request->request->get('title');
         $description = $request->request->get('description');
 
-        $task = new Task(null, $title, $description);
-        $errors = $validator->validate($task);
-
+        $errors = Task::validation($title, $description);
         if (count($errors) > 0) {
             return $this->render('tasks/create.html.twig', [
                 'errors' => $errors,
@@ -48,7 +46,7 @@ class TaskController extends AbstractController
             ]);
         }
 
-        $this->repository->insert($task);
+        $this->repository->insert(new Task(null, $title, $description));
         return $this->redirectToRoute('tasks_index');
     }
 
@@ -61,15 +59,14 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/edit', name: 'tasks_update', methods: ['POST'])]
-    public function update(Request $request, int $id, ValidatorInterface $validator): Response
+    public function update(Request $request, int $id): Response
     {
         $title = $request->request->get('title');
         $description = $request->request->get('description');
 
-        $task = new Task(null, $title, $description);
-        $errors = $validator->validate($task);
-
+        $errors = Task::validation($title, $description);
         if (count($errors) > 0) {
+            $task = new Task(null, $title, $description);
             $task->id = $id;
             return $this->render('tasks/edit.html.twig', [
                 'task' => $task,
@@ -79,7 +76,7 @@ class TaskController extends AbstractController
             ]);
         }
 
-        $this->repository->update($id, $task);
+        $this->repository->update($id, new Task(null, $title, $description));
         return $this->redirectToRoute('tasks_index');
     }
 
