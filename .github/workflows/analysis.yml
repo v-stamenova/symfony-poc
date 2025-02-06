@@ -1,0 +1,24 @@
+name: Static Analysis
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use PHP 8.3
+        uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.3'
+
+      - name: Install PHPStan
+        run: composer require --dev phpstan/phpstan
+
+      - name: Run Static Analysis with PHPStan
+        run: ./vendor/bin/phpstan analyse -c phpstan.neon --error-format github
