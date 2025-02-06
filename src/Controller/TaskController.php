@@ -20,7 +20,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks', name: 'tasks_index', methods: ['GET'])]
-    public function list(): Response
+    public function index(): Response
     {
         $tasks = $this->repository->findAll();
         return $this->render('tasks/list.html.twig', ['tasks' => $tasks]);
