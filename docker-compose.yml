@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  symfony:
+    build: .
+    container_name: symfony_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: php -S 0.0.0.0:8000 -t public
