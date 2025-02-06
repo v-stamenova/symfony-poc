@@ -23,9 +23,21 @@ class TaskRepository implements TaskRepositoryInterface
     {
         $stmt = $this->pdo->query("SELECT * FROM tasks ORDER BY id DESC");
         $tasks = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $tasks[] = new Task($row['id'], $row['title'], $row['description']);
+
+        // PHPStan does not like it when you try to fetch on PDOStatement|false (who would've thought)
+        if ($stmt !== false) {
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($rows as $row) {
+                if (is_array($row)) {
+                    $tasks[] = new Task(
+                        is_int($row['id']) ? $row['id'] : (is_numeric($row['id']) ? (int) $row['id'] : 0),
+                        is_string($row['title']) ? $row['title'] : (is_scalar($row['title']) ? strval($row['title']) : ''),
+                        is_string($row['description']) ? $row['description'] : (is_scalar($row['description']) ? strval($row['description']) : '')
+                    );
+                }
+            }
         }
+
         return $tasks;
     }
 
@@ -34,7 +46,18 @@ class TaskRepository implements TaskRepositoryInterface
         $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE id = ?");
         $stmt->execute([$id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? new Task($row['id'], $row['title'], $row['description']) : null;
+
+        if (is_array($row)) {
+            $task = new Task(
+                is_int($row['id']) ? $row['id'] : (is_numeric($row['id']) ? (int) $row['id'] : 0),
+                is_string($row['title']) ? $row['title'] : (is_scalar($row['title']) ? strval($row['title']) : ''),
+                is_string($row['description']) ? $row['description'] : (is_scalar($row['description']) ? strval($row['description']) : '')
+            );
+
+            return $task;
+        }
+
+        return null;
     }
 
     public function insert(Task $task): bool

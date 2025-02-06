@@ -18,6 +18,11 @@ class Task
         $this->description = $description;
     }
 
+    /**
+     * @param string $title
+     * @param string $description
+     * @return string[]
+     */
     public static function validation(string $title, string $description): array {
         $errors = [];
 

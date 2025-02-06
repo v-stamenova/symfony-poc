@@ -34,8 +34,8 @@ class TaskController extends AbstractController
     #[Route('/tasks/create', name: 'tasks_store', methods: ['POST'])]
     public function store(Request $request): Response
     {
-        $title = $request->request->get('title');
-        $description = $request->request->get('description');
+        $title = (string) $request->request->get('title');
+        $description = (string) $request->request->get('description');
 
         $errors = Task::validation($title, $description);
         if (count($errors) > 0) {
@@ -61,8 +61,8 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/edit', name: 'tasks_update', methods: ['POST'])]
     public function update(Request $request, int $id): Response
     {
-        $title = $request->request->get('title');
-        $description = $request->request->get('description');
+        $title = (string) $request->request->get('title');
+        $description = (string) $request->request->get('description');
 
         $errors = Task::validation($title, $description);
         if (count($errors) > 0) {
