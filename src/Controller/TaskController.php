@@ -29,7 +29,8 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'tasks_create', methods: ['GET'])]
-    public function create(): Response {
+    public function create(): Response
+    {
         $projects = $this->projectRepository->findAll();
         return $this->render('tasks/create.html.twig', compact(['projects']));
     }
@@ -38,9 +39,9 @@ class TaskController extends AbstractController
     #[Route('/projects/{project_id}/tasks/create', name: 'projects_tasks_store', methods: ['POST'])]
     public function store(?int $project_id, Request $request): Response
     {
-        $title = $request->request->get('title');
-        $description = $request->request->get('description');
-        $project_id = $project_id ?? $request->request->get('project_id');
+        $title = (string) $request->request->get('title');
+        $description = (string) $request->request->get('description');
+        $project_id = $project_id ?? (int) $request->request->get('project_id');
 
         $errors = Task::validation($title, $description);
         if (count($errors) > 0) {
@@ -49,7 +50,7 @@ class TaskController extends AbstractController
                 'title' => $title,
                 'description' => $description,
                 'project_id' => $project_id
-            ]);
+                ]);
         }
 
         $this->taskRepository->insert(new Task(null, $title, $description, $project_id));
@@ -61,16 +62,18 @@ class TaskController extends AbstractController
     {
         $task = $this->taskRepository->find($id);
 
-        return $this->render('tasks/edit.html.twig',
-        ['task' => $task]);
+        return $this->render(
+            'tasks/edit.html.twig',
+            ['task' => $task]
+        );
     }
 
     #[Route('/tasks/{id}/edit', name: 'tasks_update', methods: ['POST'])]
     public function update(Request $request, int $id): Response
     {
-        $title = $request->request->get('title');
-        $description = $request->request->get('description');
-        $project_id = $request->request->get('project_id');
+        $title = (string) $request->request->get('title');
+        $description = (string) $request->request->get('description');
+        $project_id = (int) $request->request->get('project_id');
 
         $errors = Task::validation($title, $description);
         $task = new Task(null, $title, $description, $project_id);

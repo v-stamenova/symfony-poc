@@ -3,16 +3,21 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\Task;
 use Doctrine\DBAL\Connection;
 
 class ProjectRepository
 {
     private Connection $connection;
 
-    public function __construct(Connection $connection) {
+    public function __construct(Connection $connection)
+    {
         $this->connection = $connection;
     }
 
+    /**
+     * @return List<Project>
+     */
     public function findAll(): array
     {
         $sql = "SELECT * FROM projects ORDER BY id DESC";
@@ -59,6 +64,4 @@ class ProjectRepository
         $sql = "DELETE FROM projects WHERE id = :id";
         return $this->connection->executeStatement($sql, ['id' => $id]) > 0;
     }
-
-    
 }

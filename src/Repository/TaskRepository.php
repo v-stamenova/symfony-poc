@@ -14,6 +14,9 @@ class TaskRepository
         $this->connection = $connection;
     }
 
+    /**
+     * @return List<Task>
+     */
     public function findAll(): array
     {
         $sql = "SELECT * FROM tasks ORDER BY id DESC";
@@ -61,7 +64,11 @@ class TaskRepository
         return $this->connection->executeStatement($sql, ['id' => $id]) > 0;
     }
 
-    public function findAllByProject(int $projectId): array {
+    /**
+     * @return List<Task>
+     */
+    public function findAllByProject(int $projectId): array
+    {
         $sql = "SELECT * FROM tasks WHERE project_id = ?";
 
         $tasksData = $this->connection->fetchAllAssociative($sql, [$projectId]);
