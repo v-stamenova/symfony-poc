@@ -21,10 +21,12 @@ class TaskRepositoryTest extends TestCase
         ]);
 
         $this->connection->executeStatement("
-            CREATE TABLE tasks (
+            CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
-                description TEXT
+                description TEXT,
+                project_id INTEGER,
+                FOREIGN KEY(project_id) REFERENCES tasks(id)
             )
         ");
 
@@ -59,7 +61,7 @@ class TaskRepositoryTest extends TestCase
 
     public function testInsert(): void
     {
-        $task = new Task(1, "Test Task", "This is a test task");
+        $task = new Task(1, "Test Task", "This is a test task", null);
         $result = $this->taskRepository->insert($task);
 
         $stmt = $this->connection->executeQuery("SELECT * FROM tasks WHERE id = ?", [1]);
@@ -75,7 +77,7 @@ class TaskRepositoryTest extends TestCase
     {
         $this->connection->insert('tasks', ['title' => 'Old Title', 'description' => 'Old Description']);
 
-        $task = new Task(1, "Updated Title", "Updated Description");
+        $task = new Task(1, "Updated Title", "Updated Description", null);
         $result = $this->taskRepository->update(1, $task);
 
         $stmt = $this->connection->executeQuery("SELECT * FROM tasks WHERE id = ?", [1]);
