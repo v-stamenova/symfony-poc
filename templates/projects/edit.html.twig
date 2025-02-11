@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update a Project</title>
+</head>
+<body>
+<h1>Update project #{{ project.id }}</h1>
+
+{% if errors is defined and errors|length > 0 %}
+    <ul>
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST" action="{{ path('projects_update', {'id': project.id}) }}">
+    <label for="title">Title:</label>
+    <input type="text" id="title" value="{{ project.title }}" name="title" required>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description">{{ project.description }}</textarea>
+
+    <label for="budget">Budget:</label>
+    <input type="number" id="budget" name="budget" value="{{ project.budget }}" required>
+
+    <button type="submit">Update Project</button>
+</form>
+<form method="POST" action="{{ path('projects_delete', {'id': project.id}) }}">
+    <button type="submit">Delete Project</button>
+</form>
+{% if tasks is defined and tasks|length > 0 %}
+    <ul>
+        {% for task in tasks %}
+            <a href="{{ path('tasks_edit', {'id': task.id }) }}">
+                {{ task.title }} - {{ task.description }}
+            </a>
+        {% endfor %}
+    </ul>
+{% endif %}
+<a href="{{ path('projects_tasks_create', {'id': project.id}) }}">Add a task</a>
+
+<a href="{{ path('projects_index') }}">Back to Project List</a>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <title>Projects List</title>
+</head>
+<body>
+<h1>Projects List</h1>
+
+<a href="{{ path('projects_create') }}">Add New Project</a>
+
+<ul>
+    {% for project in projects %}
+        <li>
+            <a href="{{ path('projects_edit', {'id': project.id }) }}">
+                {{ project.title }} - {{ project.description }}
+            </a>
+        </li>
+    {% else %}
+        <p>No projects available.</p>
+    {% endfor %}
+</ul>
+</body>
+</html>

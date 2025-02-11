@@ -11,4 +11,5 @@ interface TaskRepositoryInterface
     public function insert(Task $task): bool;
     public function update(int $id, Task $task): bool;
     public function delete(int $id): bool;
+    public function findAllByProject(int $projectId): array;
 }

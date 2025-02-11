@@ -10,8 +10,9 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250206122155 extends AbstractMigration
+final class Version20250207135945 extends AbstractMigration
 {
+
     public function getDescription(): string
     {
         return 'Creates tasks table';
@@ -24,7 +25,8 @@ final class Version20250206122155 extends AbstractMigration
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 description TEXT,
-                budget INTEGER
+                project_id INTEGER,
+                FOREIGN KEY(project_id) REFERENCES tasks(id)
             )
         ");
     }
