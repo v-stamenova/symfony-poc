@@ -36,11 +36,11 @@ class ProjectController extends AbstractController
     #[Route('/projects/create', name: 'projects_store', methods: ['POST'])]
     public function store(Request $request): Response
     {
-        $title = $request->request->get('title');
-        $description = $request->request->get('description');
-        $budget = $request->request->get('budget');
+        $title = (string) $request->request->get('title');
+        $description = (string) $request->request->get('description');
+        $budget = (int) $request->request->get('budget', 0);
 
-        $errors = Project::validation($title, $description, (int) $budget);
+        $errors = Project::validation($title, $description, $budget);
         if (count($errors) > 0) {
             return $this->render('projects/create.html.twig', [
                 'errors' => $errors,
@@ -66,13 +66,14 @@ class ProjectController extends AbstractController
     #[Route('/projects/{id}/edit', name: 'projects_update', methods: ['POST'])]
     public function update(Request $request, int $id): Response
     {
-        $title = $request->request->get('title');
-        $description = $request->request->get('description');
-        $budget = $request->request->get('budget');
+        $title = (string) $request->request->get('title');
+        $description = (string) $request->request->get('description');
+        $budget = (int) $request->request->get('budget', 0);
 
-        $errors = Project::validation($title, $description, (int) $budget);
+        $errors = Project::validation($title, $description, $budget);
+        $project = new Project(null, $title, $description, $budget);
+
         if (count($errors) > 0) {
-            $project = new Project(null, $title, $description, (int) $budget);
             $project->id = $id;
             return $this->render('projects/edit.html.twig', [
                 'project' => $project,
@@ -83,7 +84,7 @@ class ProjectController extends AbstractController
             ]);
         }
 
-        $this->projectRepository->update($id, new Project(null, $title, $description, (int) $budget));
+        $this->projectRepository->update($id, new Project(null, $title, $description, $budget));
         return $this->redirectToRoute('projects_index');
     }
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\Task;
 use Doctrine\DBAL\Connection;
 
 class ProjectRepository
@@ -13,6 +14,9 @@ class ProjectRepository
         $this->connection = $connection;
     }
 
+    /**
+     * @return List<Project>
+     */
     public function findAll(): array
     {
         $sql = "SELECT * FROM projects ORDER BY id DESC";

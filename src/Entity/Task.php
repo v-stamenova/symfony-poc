@@ -20,6 +20,9 @@ class Task
         $this->project_id = $project_id;
     }
 
+    /**
+     * @return string[]
+     */
     public static function validation(string $title, string $description): array {
         $errors = [];
 

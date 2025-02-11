@@ -20,6 +20,9 @@ class Project
         $this->budget = $budget;
     }
 
+    /**
+     * @return string[]
+     */
     public static function validation(string $title, string $description, int $budget): array {
         $errors = [];
 

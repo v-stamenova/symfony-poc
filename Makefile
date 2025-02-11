@@ -7,6 +7,9 @@ composer-install:
 phpunit:
 	docker exec -it $(CONTAINER_NAME) ./vendor/bin/phpunit
 
+phpstan:
+	docker exec  -it $(CONTAINER_NAME) ./vendor/bin/phpstan analyse -c phpstan.neon
+
 bash:
 	docker exec -it $(CONTAINER_NAME) bash
 
