@@ -10,27 +10,29 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250206122155 extends AbstractMigration
+final class Version20250207135945 extends AbstractMigration
 {
+
     public function getDescription(): string
     {
-        return 'Creates projects table';
+        return 'Creates tasks table';
     }
 
     public function up(Schema $schema): void
     {
         $this->addSql("
-            CREATE TABLE IF NOT EXISTS projects (
+            CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 description TEXT,
-                budget INTEGER
+                project_id INTEGER,
+                FOREIGN KEY(project_id) REFERENCES tasks(id)
             )
         ");
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql("DROP TABLE IF EXISTS projects");
+        $this->addSql("DROP TABLE IF EXISTS tasks");
     }
 }

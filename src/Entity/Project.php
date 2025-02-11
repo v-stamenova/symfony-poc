@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-class Task
+class Project
 {
     public ?int $id;
   
@@ -10,17 +10,17 @@ class Task
 
     public ?string $description;
 
-    public ?int $project_id;
+    public int $budget;
 
-    public function __construct(?int $id, string $title, ?string $description, ?int $project_id)
+    public function __construct(?int $id, string $title, ?string $description, int $budget)
     {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
-        $this->project_id = $project_id;
+        $this->budget = $budget;
     }
 
-    public static function validation(string $title, string $description): array {
+    public static function validation(string $title, string $description, int $budget): array {
         $errors = [];
 
         if (empty($title)) {
@@ -31,6 +31,12 @@ class Task
 
         if (!empty($description) && strlen($description) > 1000) {
             $errors[] = "Description cannot exceed 1000 characters.";
+        }
+
+        if (empty($budget)) {
+            $errors[] = "Budget is required.";
+        } elseif ($budget <= 0) {
+            $errors[] = "Budget must be greater than 0.";
         }
 
         return $errors;
