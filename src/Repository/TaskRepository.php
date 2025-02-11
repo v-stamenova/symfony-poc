@@ -3,11 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Task;
-use App\Repository\Interfaces\TaskRepositoryInterface;
 use Doctrine\DBAL\Connection;
-use PDO;
 
-class TaskRepository implements TaskRepositoryInterface
+class TaskRepository
 {
     private Connection $connection;
 

@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Task;
-use App\Repository\Interfaces\TaskRepositoryInterface;
 use App\Repository\ProjectRepository;
+use App\Repository\TaskRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,10 +12,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
-    private TaskRepositoryInterface $taskRepository;
+    private TaskRepository $taskRepository;
     private ProjectRepository $projectRepository;
 
-    public function __construct(TaskRepositoryInterface $taskRepository, ProjectRepository $projectRepository)
+    public function __construct(TaskRepository $taskRepository, ProjectRepository $projectRepository)
     {
         $this->taskRepository = $taskRepository;
         $this->projectRepository = $projectRepository;
