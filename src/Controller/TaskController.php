@@ -29,7 +29,8 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'tasks_create', methods: ['GET'])]
-    public function create(): Response {
+    public function create(): Response
+    {
         $projects = $this->projectRepository->findAll();
         return $this->render('tasks/create.html.twig', compact(['projects']));
     }
@@ -49,7 +50,7 @@ class TaskController extends AbstractController
                 'title' => $title,
                 'description' => $description,
                 'project_id' => $project_id
-            ]);
+                ]);
         }
 
         $this->taskRepository->insert(new Task(null, $title, $description, $project_id));
@@ -61,8 +62,10 @@ class TaskController extends AbstractController
     {
         $task = $this->taskRepository->find($id);
 
-        return $this->render('tasks/edit.html.twig',
-        ['task' => $task]);
+        return $this->render(
+            'tasks/edit.html.twig',
+            ['task' => $task]
+        );
     }
 
     #[Route('/tasks/{id}/edit', name: 'tasks_update', methods: ['POST'])]

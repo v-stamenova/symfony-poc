@@ -5,7 +5,7 @@ namespace App\Entity;
 class Project
 {
     public ?int $id;
-  
+
     public string $title;
 
     public ?string $description;
@@ -23,7 +23,8 @@ class Project
     /**
      * @return string[]
      */
-    public static function validation(string $title, string $description, int $budget): array {
+    public static function validation(string $title, string $description, int $budget): array
+    {
         $errors = [];
 
         if (empty($title)) {

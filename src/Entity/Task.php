@@ -5,7 +5,7 @@ namespace App\Entity;
 class Task
 {
     public ?int $id;
-  
+
     public string $title;
 
     public ?string $description;
@@ -23,7 +23,8 @@ class Task
     /**
      * @return string[]
      */
-    public static function validation(string $title, string $description): array {
+    public static function validation(string $title, string $description): array
+    {
         $errors = [];
 
         if (empty($title)) {

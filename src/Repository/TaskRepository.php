@@ -67,7 +67,8 @@ class TaskRepository
     /**
      * @return List<Task>
      */
-    public function findAllByProject(int $projectId): array {
+    public function findAllByProject(int $projectId): array
+    {
         $sql = "SELECT * FROM tasks WHERE project_id = ?";
 
         $tasksData = $this->connection->fetchAllAssociative($sql, [$projectId]);

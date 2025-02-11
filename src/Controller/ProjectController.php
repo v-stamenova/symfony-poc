@@ -29,7 +29,8 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/projects/create', name: 'projects_create', methods: ['GET'])]
-    public function create(): Response {
+    public function create(): Response
+    {
         return $this->render('projects/create.html.twig');
     }
 
@@ -55,12 +56,15 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/projects/{id}/edit', name: 'projects_edit', methods: ['GET'])]
-    public function edit(int $id): Response {
+    public function edit(int $id): Response
+    {
         $project = $this->projectRepository->find($id);
         $tasks = $this->taskRepository->findAllByProject($id);
 
-        return $this->render('projects/edit.html.twig',
-        ['project' => $project, 'tasks' => $tasks]);
+        return $this->render(
+            'projects/edit.html.twig',
+            ['project' => $project, 'tasks' => $tasks]
+        );
     }
 
     #[Route('/projects/{id}/edit', name: 'projects_update', methods: ['POST'])]

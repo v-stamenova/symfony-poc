@@ -10,7 +10,8 @@ class ProjectRepository
 {
     private Connection $connection;
 
-    public function __construct(Connection $connection) {
+    public function __construct(Connection $connection)
+    {
         $this->connection = $connection;
     }
 
@@ -63,6 +64,4 @@ class ProjectRepository
         $sql = "DELETE FROM projects WHERE id = :id";
         return $this->connection->executeStatement($sql, ['id' => $id]) > 0;
     }
-
-    
 }

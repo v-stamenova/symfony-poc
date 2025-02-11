@@ -44,7 +44,8 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseFormatSame('html');
     }
 
-    public function testStore(): void {
+    public function testStore(): void
+    {
         $this->taskRepositoryMock
             ->method('insert')
             ->with($this->callback(function ($task) {
@@ -63,7 +64,8 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
-    public function testStoreWithErrors(): void {
+    public function testStoreWithErrors(): void
+    {
         $this->client->request('POST', '/tasks/create', [
             'id' => '1',
             'title' => 'T',
@@ -94,7 +96,8 @@ class TaskControllerTest extends WebTestCase
         $this->assertStringContainsString('Test Task 1', $responseData);
     }
 
-    public function testUpdate(): void {
+    public function testUpdate(): void
+    {
         $this->taskRepositoryMock
             ->method('update')
             ->with(1, $this->callback(function ($task) {
@@ -115,7 +118,8 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
-    public function testUpdateWithErrors(): void {
+    public function testUpdateWithErrors(): void
+    {
         $this->client->request('POST', '/tasks/1/edit', [
             'id' => '1',
             'title' => 'T',
@@ -128,7 +132,8 @@ class TaskControllerTest extends WebTestCase
         $this->assertStringContainsString('Title must be between 3 and 255 characters.', $responseData);
     }
 
-    public function testDelete(): void {
+    public function testDelete(): void
+    {
         $this->taskRepositoryMock
             ->method('delete')
             ->with(1)
