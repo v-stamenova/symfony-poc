@@ -14,13 +14,13 @@ final class Version20250206122155 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Creates tasks table';
+        return 'Creates projects table';
     }
 
     public function up(Schema $schema): void
     {
         $this->addSql("
-            CREATE TABLE IF NOT EXISTS tasks (
+            CREATE TABLE IF NOT EXISTS projects (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 description TEXT,
@@ -31,6 +31,6 @@ final class Version20250206122155 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql("DROP TABLE IF EXISTS tasks");
+        $this->addSql("DROP TABLE IF EXISTS projects");
     }
 }
