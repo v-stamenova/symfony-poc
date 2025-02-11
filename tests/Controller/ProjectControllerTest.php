@@ -3,13 +3,12 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Project;
-use App\Entity\Task;
 use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class TaskControllerTest extends WebTestCase
+class ProjectControllerTest extends WebTestCase
 {
     private $client;
     private TaskRepository $taskRepositoryMock;
@@ -28,32 +27,24 @@ class TaskControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
-        $this->taskRepositoryMock->method('findAll')->willReturn([
-            new Task(1, 'Test Task 1', 'Description 1', null),
-            new Task(2, 'Test Task 2', 'Description 2', null)
+        $this->projectRepositoryMock->method('findAll')->willReturn([
+            new Project(1, 'Test Project 1', 'Description 1', 100),
+            new Project(2, 'Test Project 2', 'Description 2', 100)
         ]);
 
-        $this->client->request('GET', '/tasks');
+        $this->client->request('GET', '/projects');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertResponseFormatSame('html');
 
         $responseData = $this->client->getResponse()->getContent();
-        $this->assertStringContainsString('Test Task 1', $responseData);
-        $this->assertStringContainsString('Test Task 2', $responseData);
+        $this->assertStringContainsString('Test Project 1', $responseData);
+        $this->assertStringContainsString('Test Project 2', $responseData);
     }
 
     public function testCreate(): void
     {
-        $this->projectRepositoryMock
-            ->expects($this->once())
-            ->method('findAll')
-            ->willReturn([
-                new Project(1, 'Test Project 1', 'Description 1', 100),
-                new Project(2, 'Test Project 2', 'Description 2', 100)
-            ]);
-
-        $this->client->request('GET', '/tasks/create');
+        $this->client->request('GET', '/projects/create');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertResponseFormatSame('html');
@@ -61,30 +52,33 @@ class TaskControllerTest extends WebTestCase
 
     public function testStore(): void
     {
-        $this->taskRepositoryMock
+        $this->projectRepositoryMock
             ->method('insert')
-            ->with($this->callback(function ($task) {
-                return $task instanceof Task &&
-                    $task->title === 'Test Task 1' &&
-                    $task->description === 'Description 1';
+            ->with($this->callback(function ($project) {
+                return $project instanceof Project &&
+                    $project->title === 'Test Project 1' &&
+                    $project->description === 'Description 1' &&
+                    $project->budget == 100;
             }))
             ->willReturn(true);
 
-        $this->client->request('POST', '/tasks/create', [
-            'title' => 'Test Task 1',
+        $this->client->request('POST', '/projects/create', [
+            'title' => 'Test Project 1',
             'description' => 'Description 1',
+            'budget' => 100
         ]);
 
-        $this->assertResponseRedirects('/tasks');
+        $this->assertResponseRedirects('/projects');
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     public function testStoreWithErrors(): void
     {
-        $this->client->request('POST', '/tasks/create', [
+        $this->client->request('POST', '/projects/create', [
             'id' => '1',
             'title' => 'T',
             'description' => 'Description 1',
+            'budget' => 5,
         ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
@@ -93,52 +87,59 @@ class TaskControllerTest extends WebTestCase
         $this->assertStringContainsString('Title must be between 3 and 255 characters.', $responseData);
     }
 
-
     public function testEdit(): void
     {
-        $this->taskRepositoryMock
+        $this->projectRepositoryMock
             ->expects($this->once())
             ->method('find')
             ->with(1)
-            ->willReturn(new Task(1, 'Test Task 1', 'Description 1', null));
+            ->willReturn(new Project(1, 'Test Project 1', 'Description 1', 100));
 
-        $this->client->request('GET', '/tasks/1/edit');
+        $this->taskRepositoryMock
+            ->method('findAllByProject')
+            ->with(1)
+            ->willReturn([]);
+
+        $this->client->request('GET', '/projects/1/edit');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertResponseFormatSame('html');
 
         $responseData = $this->client->getResponse()->getContent();
-        $this->assertStringContainsString('Test Task 1', $responseData);
+        $this->assertStringContainsString('Test Project 1', $responseData);
     }
 
     public function testUpdate(): void
     {
-        $this->taskRepositoryMock
+        $this->projectRepositoryMock
             ->method('update')
-            ->with(1, $this->callback(function ($task) {
-                return $task instanceof Task &&
-                    $task->title === 'Test Task 1' &&
-                    $task->description === 'Description 1';
+            ->with(1, $this->callback(function ($project) {
+                return $project instanceof Project &&
+                    $project->title === 'Test Project 1' &&
+                    $project->description === 'Description 1' &&
+                    $project->budget == 100;
             }))
             ->willReturn(true);
 
 
-        $this->client->request('POST', '/tasks/1/edit', [
+        $this->client->request('POST', '/projects/1/edit', [
             'id' => '1',
-            'title' => 'Test Task 1',
+            'title' => 'Test Project 1',
             'description' => 'Description 1',
+            'budget' => 100
         ]);
 
-        $this->assertResponseRedirects('/tasks');
+        $this->assertResponseRedirects('/projects');
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
     public function testUpdateWithErrors(): void
     {
-        $this->client->request('POST', '/tasks/1/edit', [
+        $this->client->request('POST', '/projects/1/edit', [
             'id' => '1',
             'title' => 'T',
             'description' => 'Description 1',
+            'budget' => 5,
         ]);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
@@ -149,16 +150,14 @@ class TaskControllerTest extends WebTestCase
 
     public function testDelete(): void
     {
-        $this->taskRepositoryMock
+        $this->projectRepositoryMock
             ->method('delete')
             ->with(1)
             ->willReturn(true);
 
-        $this->client->request('POST', '/tasks/1/delete', [
-            'id' => '1',
-        ]);
+        $this->client->request('POST', '/projects/1/delete');
 
-        $this->assertResponseRedirects('/tasks');
+        $this->assertResponseRedirects('/projects');
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 }

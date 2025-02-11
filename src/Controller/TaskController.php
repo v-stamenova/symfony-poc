@@ -45,12 +45,15 @@ class TaskController extends AbstractController
 
         $errors = Task::validation($title, $description);
         if (count($errors) > 0) {
-                return $this->render('tasks/create.html.twig', [
+            $projects = $this->projectRepository->findAll();
+
+            return $this->render('tasks/create.html.twig', [
                 'errors' => $errors,
                 'title' => $title,
                 'description' => $description,
-                'project_id' => $project_id
-                ]);
+                'project_id' => $project_id,
+                'projects' => $projects,
+            ]);
         }
 
         $this->taskRepository->insert(new Task(null, $title, $description, $project_id));
