@@ -6,6 +6,6 @@ A small task tracking application that supports all the basic CRUD functionality
 2. Navigate to the root folder and run `docker compose up -d`. The container will be created based on the Dockerfile
 3. Open your container using `make bash` and run `composer install`
 4. The application should be available at localhost:8000
-5. If your database is new you should run 
+5. If your database is new you should run `make migrate-fresh`
 
 Once again - just a PoC (Proof of Concept). Set-up is at best ugly; code is even uglier.
