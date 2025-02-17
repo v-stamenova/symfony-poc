@@ -1,23 +1,24 @@
-<!DOCTYPE html>
-<html lang="EN">
-<head>
-    <title>Task List</title>
-</head>
-<body>
-<h1>Task List</h1>
+{% extends 'base.html.twig' %}
 
-<a href="{{ path('tasks_create') }}">Add New Task</a>
+{% block body %}
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="mb-4 flex justify-end">
+            <a href="{{ path('tasks_create') }}" class="bg-pink-900 text-white px-4 py-2 rounded hover:bg-pink-800">Add New Task</a>
+        </div>
 
-<ul>
-    {% for task in tasks %}
-        <li>
-            <a href="{{ path('tasks_edit', {'id': task.id }) }}">
-                {{ task.title }} - {{ task.description }}
-            </a>
-        </li>
-    {% else %}
-        <p>No tasks available.</p>
-    {% endfor %}
-</ul>
-</body>
-</html>
+        <ul class="space-y-4">
+            {% for task in tasks %}
+                <li class="bg-white shadow p-4 rounded hover:shadow-lg">
+                    <a href="{{ path('tasks_edit', {'id': task.id }) }}" class="h-full w-full">
+                        <p class="text-pink-900 font-semibold hover:underline">
+                            {{ task.title }}
+                        </p>
+                        <p class="text-gray-700">{{ task.description }}</p>
+                    </a>
+                </li>
+            {% else %}
+                <p class="text-gray-500">No tasks available.</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

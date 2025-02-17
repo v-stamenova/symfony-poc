@@ -1,31 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update a Task</title>
-</head>
-<body>
-<h1>Update task #{{ task.id }}</h1>
+{% extends 'base.html.twig' %}
 
-{% if errors is defined and errors|length > 0 %}
-    <ul>
-        {% for error in errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{% block body %}
+    <div class="max-w-4xl mx-auto p-6">
+        <h1 class="text-2xl font-bold text-pink-900 mb-6">Update Task #{{ task.id }}</h1>
 
-<form method="POST" action="{{ path('tasks_update', {'id': task.id}) }}">
-    <label for="title">Title:</label>
-    <input type="text" id="title" value="{{ task.title }}" name="title" required>
+        {% if errors is defined and errors|length > 0 %}
+            <ul class="mb-4 text-red-600">
+                {% for error in errors %}
+                    <li class="mb-2">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    <label for="description">Description:</label>
-    <textarea id="description" name="description">{{ task.description }}</textarea>
+        <form method="POST" action="{{ path('tasks_update', {'id': task.id}) }}" class="space-y-4">
+            <div>
+                <label for="title" class="block text-sm font-medium after:content-['*'] after:text-red-500">Title:</label>
+                <input type="text" id="title" value="{{ task.title }}" name="title" required class="w-full p-2 border border-gray-300 rounded">
+            </div>
 
-    <button type="submit">Update Task</button>
-</form>
-<form method="POST" action="{{ path('tasks_delete', {'id': task.id}) }}">
-    <button type="submit">Delete Task</button>
-</form>
-<a href="{{ path('tasks_index') }}">Back to Task List</a>
-</body>
-</html>
+            <div>
+                <label for="description" class="block text-sm font-medium">Description:</label>
+                <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded">{{ task.description }}</textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-pink-900 text-white py-2 rounded hover:bg-pink-800 hover:cursor-pointer">Update Task</button>
+        </form>
+
+        <form method="POST" action="{{ path('tasks_delete', {'id': task.id}) }}" class="mt-4">
+            <button type="submit" class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-500 hover:cursor-pointer">Delete Task</button>
+        </form>
+
+        <div class="mt-4">
+            <a href="{{ path('tasks_index') }}" class="text-pink-900 hover:underline">Back to Task List</a>
+        </div>
+    </div>
+{% endblock %}
