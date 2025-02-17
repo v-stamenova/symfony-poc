@@ -1,45 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update a Project</title>
-</head>
-<body>
-<h1>Update project #{{ project.id }}</h1>
+{% extends 'base.html.twig' %}
 
-{% if errors is defined and errors|length > 0 %}
-    <ul>
-        {% for error in errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{% block body %}
+    <div class="max-w-4xl mx-auto p-6">
+        <h1 class="text-2xl font-bold text-pink-900 mb-6">Update Project #{{ project.id }}</h1>
 
-<form method="POST" action="{{ path('projects_update', {'id': project.id}) }}">
-    <label for="title">Title:</label>
-    <input type="text" id="title" value="{{ project.title }}" name="title" required>
+        {% if errors is defined and errors|length > 0 %}
+            <ul class="mb-4 text-red-600">
+                {% for error in errors %}
+                    <li class="mb-2">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    <label for="description">Description:</label>
-    <textarea id="description" name="description">{{ project.description }}</textarea>
+        <form method="POST" action="{{ path('projects_update', {'id': project.id}) }}" class="space-y-4">
+            <div>
+                <label for="title" class="block text-sm font-medium after:content-['*'] after:text-red-500">Title:</label>
+                <input type="text" id="title" value="{{ project.title }}" name="title" required class="bg-white w-full p-2 border border-gray-300 rounded">
+            </div>
 
-    <label for="budget">Budget:</label>
-    <input type="number" id="budget" name="budget" value="{{ project.budget }}" required>
+            <div>
+                <label for="description" class="block text-sm font-medium">Description:</label>
+                <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded bg-white">{{ project.description }}</textarea>
+            </div>
 
-    <button type="submit">Update Project</button>
-</form>
-<form method="POST" action="{{ path('projects_delete', {'id': project.id}) }}">
-    <button type="submit">Delete Project</button>
-</form>
-{% if tasks is defined and tasks|length > 0 %}
-    <ul>
-        {% for task in tasks %}
-            <a href="{{ path('tasks_edit', {'id': task.id }) }}">
-                {{ task.title }} - {{ task.description }}
-            </a>
-        {% endfor %}
-    </ul>
-{% endif %}
-<a href="{{ path('projects_tasks_create', {'id': project.id}) }}">Add a task</a>
+            <div>
+                <label for="budget" class="block text-sm font-medium after:content-['*'] after:text-red-500">Budget:</label>
+                <input type="number" id="budget" name="budget" value="{{ project.budget }}" required class="w-full bg-white p-2 border border-gray-300 rounded">
+            </div>
 
-<a href="{{ path('projects_index') }}">Back to Project List</a>
-</body>
-</html>
+            <button type="submit" class="w-full bg-pink-900 text-white py-2 rounded hover:bg-pink-800 hover:cursor-pointer">Update Project</button>
+        </form>
+
+        <form method="POST" action="{{ path('projects_delete', {'id': project.id}) }}" class="mt-4">
+            <button type="submit" class="w-full bg-red-800 text-white py-2 rounded hover:bg-red-500 hover:cursor-pointer">Delete Project</button>
+        </form>
+
+        <div>
+            <h1 class="text-2xl font-bold text-pink-900 pt-5">Associated tasks</h1>
+            {% if tasks is defined and tasks|length > 0 %}
+                <ul class="mt-6 space-y-2">
+                    {% for task in tasks %}
+                        <li class="bg-white shadow p-4 rounded hover:shadow-lg">
+                            <a href="{{ path('tasks_edit', {'id': task.id }) }}" class="text-pink-900 font-semibold hover:underline">
+                                {{ task.title }} - {{ task.description }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="mt-4">
+                <a href="{{ path('projects_tasks_create', {'id': project.id}) }}" class="bg-pink-900 text-white px-4 py-2 rounded hover:bg-pink-800">Add a Task</a>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('projects_index') }}" class="text-pink-900 hover:underline">Back to Project List</a>
+        </div>
+    </div>
+{% endblock %}

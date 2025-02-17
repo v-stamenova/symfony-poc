@@ -2,15 +2,36 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Symfony PoC{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+        <nav class="bg-rose-900 text-white shadow">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="text-2xl font-bold">Task Manager</div>
+                <div class="flex space-x-6">
+                    <a href="{{ path('projects_index') }}" class="hover:underline">Projects</a>
+                    <a href="{{ path('tasks_index') }}" class="hover:underline">Tasks</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-grow p-6">
+            {% block body %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-rose-900 text-white py-4 mt-6">
+            <div class="max-w-7xl mx-auto text-center">
+                &copy; 2025 Symfony PoC (Proof of Concept)
+            </div>
+        </footer>
     </body>
 </html>
