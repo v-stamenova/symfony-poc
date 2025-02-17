@@ -15,17 +15,17 @@
         <form method="POST" action="{{ path('tasks_store') }}" class="space-y-4">
             <div>
                 <label for="title" class="block text-sm font-medium after:content-['*'] after:text-red-500">Title:</label>
-                <input type="text" id="title" name="title" required class="w-full p-2 border border-gray-300 rounded">
+                <input type="text" id="title" name="title" required class="w-full p-2 border border-gray-300 rounded bg-white">
             </div>
 
             <div>
                 <label for="description" class="block text-sm font-medium">Description:</label>
-                <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded"></textarea>
+                <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded bg-white"></textarea>
             </div>
 
             <div>
                 <label for="project_id" class="block text-sm font-medium">Project:</label>
-                <select id="project_id" name="project_id" class="w-full p-2 border border-gray-300 rounded">
+                <select id="project_id" name="project_id" class="w-full p-2 border border-gray-300 rounded bg-white">
                     <option value="">Select a Project</option>
                     {% for project in projects %}
                         <option value="{{ project.id }}">{{ project.title }}</option>

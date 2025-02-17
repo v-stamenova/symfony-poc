@@ -15,12 +15,12 @@
         <form method="POST" action="{{ path('tasks_update', {'id': task.id}) }}" class="space-y-4">
             <div>
                 <label for="title" class="block text-sm font-medium after:content-['*'] after:text-red-500">Title:</label>
-                <input type="text" id="title" value="{{ task.title }}" name="title" required class="w-full p-2 border border-gray-300 rounded">
+                <input type="text" id="title" value="{{ task.title }}" name="title" required class="bg-white w-full p-2 border border-gray-300 rounded">
             </div>
 
             <div>
                 <label for="description" class="block text-sm font-medium">Description:</label>
-                <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded">{{ task.description }}</textarea>
+                <textarea id="description" name="description" class="w-full p-2 border border-gray-300 rounded bg-white">{{ task.description }}</textarea>
             </div>
 
             <button type="submit" class="w-full bg-pink-900 text-white py-2 rounded hover:bg-pink-800 hover:cursor-pointer">Update Task</button>

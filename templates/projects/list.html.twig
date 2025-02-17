@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html lang="EN">
-<head>
-    <title>Projects List</title>
-</head>
-<body>
-<h1>Projects List</h1>
+{% extends 'base.html.twig' %}
 
-<a href="{{ path('projects_create') }}">Add New Project</a>
+{% block body %}
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-4xl font-bold text-pink-900">Projects List</h1>
+            <a href="{{ path('projects_create') }}" class="bg-pink-900 text-white px-4 py-2 rounded hover:bg-pink-800">Add New Project</a>
+        </div>
 
-<ul>
-    {% for project in projects %}
-        <li>
-            <a href="{{ path('projects_edit', {'id': project.id }) }}">
-                {{ project.title }} - {{ project.description }}
-            </a>
-        </li>
-    {% else %}
-        <p>No projects available.</p>
-    {% endfor %}
-</ul>
-</body>
-</html>
+        <ul class="space-y-4">
+            {% for project in projects %}
+                <li class="bg-white shadow p-4 rounded hover:shadow-lg">
+                    <a href="{{ path('projects_edit', {'id': project.id }) }}" class="text-pink-900 font-semibold hover:underline">
+                        {{ project.title }}
+                    </a>
+                    <p class="text-gray-700">{{ project.description }}</p>
+                </li>
+            {% else %}
+                <p class="text-gray-500">No projects available.</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
